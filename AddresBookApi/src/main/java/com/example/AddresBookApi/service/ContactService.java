@@ -2,20 +2,22 @@ package com.example.AddresBookApi.service;
 
 import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.repository.ContactRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @Service
 public class ContactService {
-    @Autowired
-    private ContactRepository contactRepository;
+
+    private final ContactRepository contactRepository;
+
     public Iterable<Contact>findAll(){
         return contactRepository.findAll();
     }
+
     public Contact findById(Integer id){
         return contactRepository
                 .findById(id)
@@ -28,9 +30,7 @@ public class ContactService {
     }
 
     public Contact update(Integer id, Contact form){
-        Contact contactFromDB = contactRepository
-                .findById(id)
-                .orElse(null);
+        Contact contactFromDB = findById(id);
 
         contactFromDB.setName(form.getName());
         contactFromDB.setEmail(form.getEmail());
@@ -39,9 +39,7 @@ public class ContactService {
     }
 
     public void delete(Integer id){
-        Contact contactFromDB = contactRepository
-                .findById(id)
-                .orElse(null);
+        Contact contactFromDB = findById(id);
         contactRepository.delete(contactFromDB);
     }
 }

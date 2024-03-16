@@ -2,17 +2,20 @@ package com.example.AddresBookApi.controller;
 
 import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.service.ContactService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @RequestMapping("/api/contacts")
 @RestController
 public class Controller {
-    @Autowired
-    private ContactService contactService;
+
+    private final ContactService contactService;
+
+
 
     @GetMapping
     public Iterable<Contact>list(){

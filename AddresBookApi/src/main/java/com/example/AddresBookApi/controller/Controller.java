@@ -1,7 +1,7 @@
 package com.example.AddresBookApi.controller;
 
 import com.example.AddresBookApi.entity.Contact;
-import com.example.AddresBookApi.repository.ContactRepository;
+import com.example.AddresBookApi.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,44 +12,32 @@ import java.time.LocalDateTime;
 @RestController
 public class Controller {
     @Autowired
-    private ContactRepository contactRepository;
+    private ContactService contactService;
 
     @GetMapping
     public Iterable<Contact>list(){
-        return contactRepository.findAll();
+        return contactService.findAll();
     }
 
     @GetMapping("{id}")
     public Contact get(@PathVariable Integer id){
-        return contactRepository
-                .findById(id)
-                .orElse(null);
+        return contactService.findById(id);
     }
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Contact create(@RequestBody Contact contact){
         contact.setCreatedAt(LocalDateTime.now());
-        return contactRepository.save(contact);
+        return contactService.create(contact);
     }
 
     @PutMapping("{id}")
     public Contact update(@PathVariable Integer id,
                           @RequestBody Contact form){
-        Contact contactFromDB = contactRepository
-                .findById(id)
-                .orElse(null);
-
-        contactFromDB.setName(form.getName());
-        contactFromDB.setEmail(form.getEmail());
-
-        return contactRepository.save(contactFromDB);
+        return contactService.update(id, form);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void delete(@PathVariable Integer id){
-        Contact contactFromDB = contactRepository
-                .findById(id)
-                .orElse(null);
-        contactRepository.delete(contactFromDB);
+        contactService.delete(id);
     }
 }

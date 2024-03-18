@@ -21,7 +21,7 @@ export class ContactService {
     return this.http.post<Contact>('http://localhost:8080/api/contacts', contact);
   }
 
-  update(id: number, contact: any){
+  update(id: number, contact: Contact){
     return this.http.put<Contact>(`http://localhost:8080/api/contacts/${id}`, contact);
   }
   

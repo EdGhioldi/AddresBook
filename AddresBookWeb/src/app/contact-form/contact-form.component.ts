@@ -42,8 +42,12 @@ export default class ContactFormComponent implements OnInit{
       }
     }
 
-  create(){
-    const contact = this.form!.value;
+  save(){
+    const contactForm = this.form!.value;
+
+    if (this.contact){
+
+    }
     this.contactService.create(contact)
       .subscribe(() =>{
         this.router.navigate(["/"])

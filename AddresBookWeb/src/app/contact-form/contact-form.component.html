@@ -7,7 +7,7 @@
 </h2>
 
 <div class="row row-cols-3 justify-content-center">
-    @if(form) {    <form [formGroup]="form" (ngSubmit)="create()">
+    @if(form) {    <form [formGroup]="form" (ngSubmit)="save()">
         <div class="mb-3">
             <label for="name">Nombre</label>
             <input type="text" id="name" placeholder="Nombre" class="form-control"

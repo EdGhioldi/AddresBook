@@ -28,7 +28,7 @@
                         <button class="btn btn-primary" [routerLink]="[contact.id, 'edit']">
                             Editar
                         </button>
-                        <button class="btn btn-danger">
+                        <button class="btn btn-danger" (click)="deleteContact(contact)">
                             Eliminar
                         </button>
                     </div>

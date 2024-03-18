@@ -2,6 +2,7 @@ package com.example.AddresBookApi;
 
 import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.repository.ContactRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,4 +33,10 @@ public class AddresBookApiApplication {
 			contactRepository.saveAll(contacts);
 		};
 	}
+
+	@Bean
+	ModelMapper modelMaper(){
+		return new ModelMapper();
+	}
+
 }

@@ -4,6 +4,7 @@ import com.example.AddresBookApi.dto.ContactDTO;
 import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.repository.ContactRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
@@ -24,19 +25,16 @@ public class ContactService {
     }
 
     public Contact create(ContactDTO contactDTO){
-        Contact contact = new Contact();
-        contact.setName(contactDTO.getName());
-        contact.setEmail(contactDTO.getEmail());
+        ModelMapper maper = new ModelMapper();
+        Contact contact = maper.map(contactDTO, Contact.class);
         contact.setCreatedAt(LocalDateTime.now());
         return contactRepository.save(contact);
     }
 
     public Contact update(Integer id, ContactDTO contactDTO){
         Contact contactFromDB = findById(id);
-
-        contactFromDB.setName(contactDTO.getName());
-        contactFromDB.setEmail(contactDTO.getEmail());
-
+        ModelMapper maper = new ModelMapper();
+        maper.map(contactDTO, contactFromDB);
         return contactRepository.save(contactFromDB);
     }
 

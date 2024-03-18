@@ -1,5 +1,6 @@
 package com.example.AddresBookApi.controller;
 
+import com.example.AddresBookApi.dto.ContactDTO;
 import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.service.ContactService;
 import lombok.AllArgsConstructor;
@@ -26,17 +27,17 @@ public class Controller {
     public Contact get(@PathVariable Integer id){
         return contactService.findById(id);
     }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Contact create(@RequestBody Contact contact){
-        contact.setCreatedAt(LocalDateTime.now());
-        return contactService.create(contact);
+    public Contact create(@RequestBody ContactDTO contactDTO){
+        return contactService.create(contactDTO);
     }
 
     @PutMapping("{id}")
     public Contact update(@PathVariable Integer id,
-                          @RequestBody Contact form){
-        return contactService.update(id, form);
+                          @RequestBody ContactDTO contactDTO){
+        return contactService.update(id, contactDTO);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")

@@ -1,5 +1,6 @@
 package com.example.AddresBookApi.service;
 
+import com.example.AddresBookApi.dto.ContactDTO;
 import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.repository.ContactRepository;
 import lombok.AllArgsConstructor;
@@ -22,16 +23,19 @@ public class ContactService {
                 .orElse(null);
     }
 
-    public Contact create(Contact contact){
+    public Contact create(ContactDTO contactDTO){
+        Contact contact = new Contact();
+        contact.setName(contactDTO.getName());
+        contact.setEmail(contactDTO.getEmail());
         contact.setCreatedAt(LocalDateTime.now());
         return contactRepository.save(contact);
     }
 
-    public Contact update(Integer id, Contact form){
+    public Contact update(Integer id, ContactDTO contactDTO){
         Contact contactFromDB = findById(id);
 
-        contactFromDB.setName(form.getName());
-        contactFromDB.setEmail(form.getEmail());
+        contactFromDB.setName(contactDTO.getName());
+        contactFromDB.setEmail(contactDTO.getEmail());
 
         return contactRepository.save(contactFromDB);
     }

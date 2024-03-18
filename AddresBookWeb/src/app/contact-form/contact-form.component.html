@@ -1,7 +1,7 @@
 <h2 class=" mb-5">Nuevo Contacto</h2>
 
 <div class="row row-cols-3 justify-content-center">
-    <form [formGroup]="form" (ngSubmit)="create()">
+    @if(form) {    <form [formGroup]="form" (ngSubmit)="create()">
         <div class="mb-3">
             <label for="name">Nombre</label>
             <input type="text" id="name" placeholder="Nombre" class="form-control"
@@ -20,5 +20,5 @@
                 Crear Contacto
             </button>
         </div>
-    </form>
+    </form>}
 </div>

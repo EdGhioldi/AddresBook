@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ContactService } from '../services/contact.service';
 
 @Component({
@@ -10,19 +10,37 @@ import { ContactService } from '../services/contact.service';
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.css'
 })
-export default class ContactFormComponent {
+export default class ContactFormComponent implements OnInit{
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute)
   private contactService = inject(ContactService);
 
-  form = this.fb.group({
-    name: ['', [Validators.required]],
-    email: ['', [Validators.required]],
-  });
+
+  form?: FormGroup;
+
+  ngOnInit(): void {
+      const id = this.route.snapshot.paramMap.get('id');
+
+      if (id) {
+        this.contactService.get(parseInt(id))
+        .subscribe(contact =>
+          this.form = this.fb.group({
+            name: [contact.name, [Validators.required]],
+            email: [contact.email, [Validators.required]],
+          })
+          )
+      }else{
+        this.form = this.fb.group({
+          name: ['',[Validators.required]],
+          email: ['', [Validators.required]],
+        })
+      }
+    }
 
   create(){
-    const contact = this.form.value;
+    const contact = this.form!.value;
     this.contactService.create(contact)
       .subscribe(() =>{
         this.router.navigate(["/"])

@@ -1,4 +1,10 @@
-<h2 class=" mb-5">Nuevo Contacto</h2>
+<h2 class=" mb-5">
+    @if(contact){
+        Editar
+    } @else {
+        Nuevo
+    } Contacto
+</h2>
 
 <div class="row row-cols-3 justify-content-center">
     @if(form) {    <form [formGroup]="form" (ngSubmit)="create()">
@@ -17,7 +23,11 @@
                 Cancelar
             </button>
             <button class="btn btn-primary ms-2">
-                Crear Contacto
+                @if(contact){
+                    Actualizar
+                } @else {
+                    Crear
+                } Contacto
             </button>
         </div>
     </form>}

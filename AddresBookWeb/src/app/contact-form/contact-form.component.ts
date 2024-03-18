@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ContactService } from '../services/contact.service';
+import { Contact } from '../model/contact.interfaces';
 
 @Component({
   selector: 'app-contact-form',
@@ -19,18 +20,20 @@ export default class ContactFormComponent implements OnInit{
 
 
   form?: FormGroup;
+  contact?: Contact;
 
   ngOnInit(): void {
       const id = this.route.snapshot.paramMap.get('id');
 
       if (id) {
         this.contactService.get(parseInt(id))
-        .subscribe(contact =>
+        .subscribe(contact => {
+          this.contact = contact;
           this.form = this.fb.group({
             name: [contact.name, [Validators.required]],
             email: [contact.email, [Validators.required]],
           })
-          )
+        })
       }else{
         this.form = this.fb.group({
           name: ['',[Validators.required]],

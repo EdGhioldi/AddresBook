@@ -2,6 +2,7 @@ package com.example.AddresBookApi.service;
 
 import com.example.AddresBookApi.dto.ContactDTO;
 import com.example.AddresBookApi.entity.Contact;
+import com.example.AddresBookApi.exception.ResourceNotFoundException;
 import com.example.AddresBookApi.repository.ContactRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +23,7 @@ public class ContactService {
     public Contact findById(Integer id){
         return contactRepository
                 .findById(id)
-                .orElse(null);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     public Contact create(ContactDTO contactDTO){

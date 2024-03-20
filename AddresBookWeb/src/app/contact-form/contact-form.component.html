@@ -12,11 +12,20 @@
             <label for="name">Nombre</label>
             <input type="text" id="name" placeholder="Nombre" class="form-control"
             formControlName="name">
+            @if(form.get('name')?.hasError('required')){
+                <p class="invalid-feedback d-block">El nombre es obligatorio</p>
+            }
         </div>
         <div class="mb-3">
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="E-Mail" class="form-control"
             formControlName="email">
+            @if(form.get('email')?.hasError('required')){
+                <p class="invalid-feedback d-block">El e-mail es obligatorio</p>
+            }
+            @if(form.get('email')?.hasError('email')){
+                <p class="invalid-feedback d-block">El e-mail es invalido</p>
+            }
         </div>
         <div class="text-end">
             <button type="button" class="btn btn-light" routerLink="/">

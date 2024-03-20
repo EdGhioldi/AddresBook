@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ContactService } from '../services/contact.service';
 import { Contact } from '../model/contact.interfaces';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contact-form',
@@ -21,6 +22,7 @@ export default class ContactFormComponent implements OnInit {
 
   form?: FormGroup;
   contact?: Contact;
+  errors: String [] = [];
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -36,10 +38,9 @@ export default class ContactFormComponent implements OnInit {
         })
     } else {
       this.form = this.fb.group({
-        // name: ['', [Validators.required]],
-        // email: ['', [Validators.required, Validators.email]],
-        name: ['', []],
-        email: ['', []],
+        name: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+
         
       })
     }
@@ -47,22 +48,30 @@ export default class ContactFormComponent implements OnInit {
 
   save() {
     if (this.form?.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
     const contactForm = this.form!.value;
+    let request: Observable<Contact>; 
 
     if (this.contact) {
-      this.contactService.update(this.contact.id, contactForm)
-        .subscribe(() => {
-          this.router.navigate(["/"])
-        });
+      request = this.contactService.update(this.contact.id, contactForm)
+
     } else {
-      this.contactService.create(contactForm)
-        .subscribe(() => {
-          this.router.navigate(["/"])
-        });
+      request = this.contactService.create(contactForm)
     }
+
+    request
+    .subscribe({
+      next: () => {
+        this.errors = [];
+        this.router.navigate(['/']);
+      },
+      error: response => {
+        this.errors = response.error.errors;
+      }
+    });
 
   }
 }

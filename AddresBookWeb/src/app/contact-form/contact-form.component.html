@@ -7,37 +7,54 @@
 </h2>
 
 <div class="row row-cols-3 justify-content-center">
-    @if(form) {    <form [formGroup]="form" (ngSubmit)="save()">
-        <div class="mb-3">
-            <label for="name">Nombre</label>
-            <input type="text" id="name" placeholder="Nombre" class="form-control"
-            formControlName="name">
-            @if(form.get('name')?.hasError('required')){
-                <p class="invalid-feedback d-block">El nombre es obligatorio</p>
+    @if(form) {  
+        <div>
+            @if(errors.length){  
+                <div class="alert alert-danger">
+                    <p>Por favor: </p>
+
+                    <ul>
+                        @for(error of errors; track error){
+                        <li>{{ error }}</li>
+                        }
+                    </ul>
+                </div>
             }
+    
+            <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="mb-3">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" placeholder="Nombre" class="form-control"
+                formControlName="name">
+                @if(form.get('name')?.hasError('required') && form.get('name')?.touched ){
+                    <p class="invalid-feedback d-block">El nombre es obligatorio</p>
+                }
+            </div>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="E-Mail" class="form-control"
+                formControlName="email">
+                @if(form.get('email')?.hasError('required') && form.get('email')?.touched ){
+                    <p class="invalid-feedback d-block">El e-mail es obligatorio</p>
+                }
+                @if(form.get('email')?.hasError('email') && form.get('email')?.touched ){
+                    <p class="invalid-feedback d-block">El e-mail es invalido</p>
+                }
+            </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-light" routerLink="/">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary ms-2">
+                    @if(contact){
+                        Actualizar
+                    } @else {
+                        Crear
+                    } Contacto
+                </button>
+            </div>
+        </form>
         </div>
-        <div class="mb-3">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="E-Mail" class="form-control"
-            formControlName="email">
-            @if(form.get('email')?.hasError('required')){
-                <p class="invalid-feedback d-block">El e-mail es obligatorio</p>
-            }
-            @if(form.get('email')?.hasError('email')){
-                <p class="invalid-feedback d-block">El e-mail es invalido</p>
-            }
-        </div>
-        <div class="text-end">
-            <button type="button" class="btn btn-light" routerLink="/">
-                Cancelar
-            </button>
-            <button class="btn btn-primary ms-2">
-                @if(contact){
-                    Actualizar
-                } @else {
-                    Crear
-                } Contacto
-            </button>
-        </div>
-    </form>}
+ 
+    }
 </div>

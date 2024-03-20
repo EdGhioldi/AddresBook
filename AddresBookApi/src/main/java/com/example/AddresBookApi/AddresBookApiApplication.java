@@ -35,7 +35,7 @@ public class AddresBookApiApplication {
 	}
 
 	@Bean
-	ModelMapper modelMaper(){
+	ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
 

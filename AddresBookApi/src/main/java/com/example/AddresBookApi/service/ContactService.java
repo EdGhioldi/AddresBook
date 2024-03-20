@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class ContactService {
 
     private final ContactRepository contactRepository;
+    private final ModelMapper mapper;
 
     public Iterable<Contact>findAll(){
         return contactRepository.findAll();
@@ -25,16 +26,14 @@ public class ContactService {
     }
 
     public Contact create(ContactDTO contactDTO){
-        ModelMapper maper = new ModelMapper();
-        Contact contact = maper.map(contactDTO, Contact.class);
+        Contact contact = mapper.map(contactDTO, Contact.class);
         contact.setCreatedAt(LocalDateTime.now());
         return contactRepository.save(contact);
     }
 
     public Contact update(Integer id, ContactDTO contactDTO){
         Contact contactFromDB = findById(id);
-        ModelMapper maper = new ModelMapper();
-        maper.map(contactDTO, contactFromDB);
+        mapper.map(contactDTO, contactFromDB);
         return contactRepository.save(contactFromDB);
     }
 

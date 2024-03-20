@@ -5,6 +5,7 @@ import com.example.AddresBookApi.entity.Contact;
 import com.example.AddresBookApi.service.ContactService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
@@ -30,12 +31,12 @@ public class Controller {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Contact create(@RequestBody ContactDTO contactDTO){
+    public Contact create(@Validated @RequestBody ContactDTO contactDTO){
         return contactService.create(contactDTO);
     }
 
     @PutMapping("{id}")
-    public Contact update(@PathVariable Integer id,
+    public Contact update(@Validated @PathVariable Integer id,
                           @RequestBody ContactDTO contactDTO){
         return contactService.update(id, contactDTO);
     }
